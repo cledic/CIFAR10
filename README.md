@@ -9,6 +9,7 @@ The program must be called with the image binary file name as parameter, and opt
 If you omit to specify the image number, the program generate a random number.
 
 [1] https://www.cs.toronto.edu/~kriz/cifar.html
+
 [2] http://www.keil.com/pack/doc/CMSIS_Dev/NN/html/index.html
 
 
