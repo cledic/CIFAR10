@@ -109,12 +109,12 @@ int main( int argc, char* argv[])
 
     /* Point to the image inside the binary file */
     fseek ( fp, (IMAGE_RECORD_LEN*idx), SEEK_SET);
-	byte_read = fread ( img.image, 1, IMAGE_RECORD_LEN, fp);
+    byte_read = fread ( img.image, 1, IMAGE_RECORD_LEN, fp);
     fclose(fp);
 
-	fprintf( stdout, "From file: %s\n Read: %d bytes @pos: %d\n", argv[1], byte_read, idx);
+    fprintf( stdout, "From file: %s\n Read: %d bytes @pos: %d\n", argv[1], byte_read, idx);
 
-	if ( img.color.label < 10)
+    if ( img.color.label < 10)
     {
         fprintf( stdout, " Label: %s, [%d]\n", labels[img.color.label], img.color.label);
     } else {
@@ -128,7 +128,7 @@ int main( int argc, char* argv[])
 
     fp=fopen( filename, "wb");
     if ( fp==NULL)
-	{
+    {
         fprintf( stderr, "ERROR: can not write data to include file: %s\n", filename);
         exit( 3);
     }
@@ -148,7 +148,7 @@ int main( int argc, char* argv[])
 
     fp=fopen( filename, "wb");
     if ( fp==NULL)
-	{
+    {
         fprintf( stderr, "ERROR: can not write data to RGB file: %s\n", filename);
         exit( 4);
     }
@@ -179,59 +179,59 @@ uint32_t SaveBMP( char*fname)
     */
     int i, j, x, y;
 
-	imgbmp = (unsigned char *)malloc(IMAGE_SIZE);
+    imgbmp = (unsigned char *)malloc(IMAGE_SIZE);
     if ( imgbmp==NULL)
-	{
-	    fprintf( stderr, "ERROR: can not allocate memory for BMP file: %s, size: %d\n", filename, IMAGE_SIZE);
-	    return 5;
-	}
+    {
+        fprintf( stderr, "ERROR: can not allocate memory for BMP file: %s, size: %d\n", filename, IMAGE_SIZE);
+	return 5;
+    }
 
-	memset(imgbmp, 0, IMAGE_SIZE);
+    memset(imgbmp, 0, IMAGE_SIZE);
 
-	for(i=0; i<W; i++)	// w
+    for(i=0; i<W; i++)	// w
+    {
+	for(j=0; j<H; j++)	// h
 	{
-		for(j=0; j<H; j++)	// h
-		{
-			x=i; y=(H-1)-j;
+  	    x=i; y=(H-1)-j;
             imgbmp[(x+y*W)*3+2] = (unsigned char)(img.color.r[(x+y*W)]);
-			imgbmp[(x+y*W)*3+1] = (unsigned char)(img.color.g[(x+y*W)]);
-			imgbmp[(x+y*W)*3+0] = (unsigned char)(img.color.b[(x+y*W)]);
-		}
+	    imgbmp[(x+y*W)*3+1] = (unsigned char)(img.color.g[(x+y*W)]);
+	    imgbmp[(x+y*W)*3+0] = (unsigned char)(img.color.b[(x+y*W)]);
 	}
+    }
 
-	bmpfileheader[ 2] = (unsigned char)(filesize    );
-	bmpfileheader[ 3] = (unsigned char)(filesize>> 8);
-	bmpfileheader[ 4] = (unsigned char)(filesize>>16);
-	bmpfileheader[ 5] = (unsigned char)(filesize>>24);
+    bmpfileheader[ 2] = (unsigned char)(filesize    );
+    bmpfileheader[ 3] = (unsigned char)(filesize>> 8);
+    bmpfileheader[ 4] = (unsigned char)(filesize>>16);
+    bmpfileheader[ 5] = (unsigned char)(filesize>>24);
 
-	bmpinfoheader[ 4] = (unsigned char)(       W    );
-	bmpinfoheader[ 5] = (unsigned char)(       W>> 8);
-	bmpinfoheader[ 6] = (unsigned char)(       W>>16);
-	bmpinfoheader[ 7] = (unsigned char)(       W>>24);
-	bmpinfoheader[ 8] = (unsigned char)(       H    );
-	bmpinfoheader[ 9] = (unsigned char)(       H>> 8);
-	bmpinfoheader[10] = (unsigned char)(       H>>16);
-	bmpinfoheader[11] = (unsigned char)(       H>>24);
+    bmpinfoheader[ 4] = (unsigned char)(       W    );
+    bmpinfoheader[ 5] = (unsigned char)(       W>> 8);
+    bmpinfoheader[ 6] = (unsigned char)(       W>>16);
+    bmpinfoheader[ 7] = (unsigned char)(       W>>24);
+    bmpinfoheader[ 8] = (unsigned char)(       H    );
+    bmpinfoheader[ 9] = (unsigned char)(       H>> 8);
+    bmpinfoheader[10] = (unsigned char)(       H>>16);
+    bmpinfoheader[11] = (unsigned char)(       H>>24);
 
-	fp = fopen(fname,"wb");
+    fp = fopen(fname,"wb");
     if ( fp==NULL)
-	{
+    {
         fprintf( stderr, "ERROR: can not write data to BMP file: %s\n", filename);
         free(imgbmp);
         return 6;
     }
 
-	fwrite(bmpfileheader,1,14,fp);
-	fwrite(bmpinfoheader,1,40,fp);
+    fwrite(bmpfileheader,1,14,fp);
+    fwrite(bmpinfoheader,1,40,fp);
 
-	for(i=0; i<H; i++)
-	{
-		fwrite(imgbmp+(W*(H-i-1)*3), 3, W, fp);
-		fwrite(bmppad, 1, (4-(W*3)%4)%4, fp);
-	}
+    for(i=0; i<H; i++)
+    {
+	fwrite(imgbmp+(W*(H-i-1)*3), 3, W, fp);
+	fwrite(bmppad, 1, (4-(W*3)%4)%4, fp);
+    }
 
-	free(imgbmp);
-	fclose(fp);
+    free(imgbmp);
+    fclose(fp);
 
-	return 0;
+    return 0;
 }
