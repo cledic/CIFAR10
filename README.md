@@ -6,10 +6,11 @@ A very simple C program to extract an image from CIFAR10 [1] binary file. The im
 3. a BMP image file.
 
 The program must be called with the image binary file name as parameter, and optionally you can pass the number of the image to extract.
-If you omit to specify the image number, the program generate a random number.
+If you omit to specify the image number, the program generate a random number. More here [3]
 
 [1] https://www.cs.toronto.edu/~kriz/cifar.html
 
 [2] http://www.keil.com/pack/doc/CMSIS_Dev/NN/html/index.html
 
+[3] https://community.arm.com/processors/b/blog/posts/new-neural-network-kernels-boost-efficiency-in-microcontrollers-by-5x
 
